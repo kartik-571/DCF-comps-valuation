@@ -44,3 +44,9 @@ def project_fcf(ebit_margin: list, revenue: list, tax_rate: float, da_pct_revenu
         fcf.append(fcf_multi_years)
     return fcf
        
+def terminal_value(fcf_final_year: float, terminal_growth_rate: float, wacc: float):
+    if wacc <= terminal_growth_rate:
+        raise ValueError("WACC must be greater than the terminal growth rate to calculate terminal value")
+    terminal_value = fcf_final_year * (1 + terminal_growth_rate) / (wacc - terminal_growth_rate)
+    return terminal_value
+

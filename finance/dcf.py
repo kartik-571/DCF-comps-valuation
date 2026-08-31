@@ -16,3 +16,15 @@ def wacc(cost_of_equity:float, cost_of_debt:float, market_value_of_equity:float,
         raise ValueError("Total value of equity and debt cannot equal 0")
     wacc = (cost_of_equity * (market_value_of_equity / total_value) + cost_of_debt * (market_value_of_debt / total_value))
     return wacc
+
+# building project revenue code lines
+def project_revenue(base_revenue:float, growth_rate:float):
+    growth = []
+    current = base_revenue
+    for rate in growth_rate:
+        current = current * (1 + rate)
+        growth.append(current) 
+    return growth 
+
+
+    

@@ -57,9 +57,40 @@ def calculate_dcf(fcf:list, wacc:float):
         dcf.append(pv)
     return dcf
 
+def run_dcf_analysis(risk_free_rate:float, beta:float, equity_risk_premium:float, pre_tax_cost_of_debt:float,
+                      tax_rate:float, market_value_of_equity:float, market_value_of_debt:float, base_revenue:float,
+                        growth_rate:list, ebit_margin: list, da_pct_revenue:list, capex_pct_revenue: list,
+                          nwc_change_pct_revenue: list, terminal_growth_rate: float, net_debt:float, shares_outstanding:float):
+    # Calculate cost of equity
+    cost_of_equity_value = cost_of_equity(risk_free_rate, beta, equity_risk_premium)
+    # Calculate after-tax cost of debt
+    after_tax_cost_of_debt_value = after_tax_cost_of_debt(pre_tax_cost_of_debt, tax_rate)
+    # Calculate WACC
+    wacc_value = wacc(cost_of_equity_value, after_tax_cost_of_debt_value, market_value_of_equity, market_value_of_debt)
+    # Project revenue
+    projected_revenue = project_revenue(base_revenue, growth_rate)
+    # Project FCF 
+    projected_fcf = project_fcf(ebit_margin, projected_revenue, tax_rate, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue)
+    # Calculate dcf
+    dcf_values = calculate_dcf(projected_fcf, wacc_value)
+    # Calculate terminal value  
+    terminal_value_result = terminal_value(projected_fcf[-1], terminal_growth_rate, wacc_value)
+    # Discount terminal value to present value
+    discounted_terminal_value = calculate_dcf([terminal_value_result], wacc_value)[0]
+    # Calculate total enterprise value
+    total_enterprise_value = sum(dcf_values) + discounted_terminal_value
+    # Calculate equity value
+    equity_value = total_enterprise_value - net_debt
+    # Calculate intrinsic value per share
+    intrinsic_value_per_share = equity_value / shares_outstanding
+    return {
+        "total_enterprise_value": total_enterprise_value,
+        "equity_value": equity_value,
+        "intrinsic_value_per_share": intrinsic_value_per_share}
+    
 
 
 
 
-
+                         
 

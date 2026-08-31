@@ -1,26 +1,27 @@
 from flask import Flask, request
 
+from finance.dcf import run_dcf_analysis
+
 app = Flask(__name__)
 
 @app.route('/', methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        revenue = request.form["revenue"]
-        tax_rate = request.form["tax_rate"]
-        wacc_value = request.form["wacc"]
-        base_revenue = request.form["base_revenue"]
-        growth_rate = request.form["growth_rate"]
-        ebit_margin = request.form["ebit_margin"]
-        da_pct_revenue = request.form["da_pct_revenue"]
-        capex_pct_revenue = request.form["capex_pct_revenue"]
-        nwc_change_pct_revenue = request.form["nwc_change_pct_revenue"]
-        terminal_growth_rate = request.form["terminal_growth_rate"]
-        net_debt = request.form["net_debt"]
-        shares_outstanding = request.form["shares_outstanding"]
-        return f"You entered: Revenue:{revenue} Tax Rate:{tax_rate} WACC:{wacc_value} Base Revenue:{base_revenue} Growth Rate:{growth_rate} EBIT Margin:{ebit_margin} DA % Revenue:{da_pct_revenue} Capex % Revenue:{capex_pct_revenue} NWC Change % Revenue:{nwc_change_pct_revenue} Terminal Value Growth Rate:{terminal_growth_rate} Net Debt:{net_debt} Shares Outstanding:{shares_outstanding}"
+        tax_rate = float(request.form["tax_rate"])
+        wacc_value = float(request.form["wacc"])
+        base_revenue = float(request.form["base_revenue"])
+        growth_rate = [float (x) for x in request.form["growth_rate"].split(",")]
+        ebit_margin = [float (x) for x in request.form["ebit_margin"].split(",")]
+        da_pct_revenue = [float (x) for x in request.form["da_pct_revenue"].split(",")]
+        capex_pct_revenue = [float (x) for x in request.form["capex_pct_revenue"].split(",")]
+        nwc_change_pct_revenue = [float (x) for x in request.form["nwc_change_pct_revenue"].split(",")]
+        terminal_growth_rate = float(request.form["terminal_growth_rate"])
+        net_debt = float(request.form["net_debt"])
+        shares_outstanding = float(request.form["shares_outstanding"])
+        dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
+        return f"DCF Result: {dcf_result}"
     return '''
         <form method="POST">
-            Revenue: <input type="text" name="revenue">
             Tax Rate: <input type="text" name="tax_rate">
             WACC: <input type="text" name="wacc">
             Base Revenue: <input type="text" name="base_revenue">

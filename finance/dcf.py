@@ -37,19 +37,22 @@ def calculate_fcf_single_year(ebit_margin: float, revenue: float, tax_rate: floa
     fcf = nopat + da - capex - change_in_nwc
     return fcf
 
+# multi-year FCF calculation code lines
 def project_fcf(ebit_margin: list, revenue: list, tax_rate: float, da_pct_revenue: list, capex_pct_revenue: list, nwc_change_pct_revenue: list):
     fcf = []
     for year_revenue, year_ebit_margin, year_da_pct_revenue, year_capex_pct_revenue, year_nwc_change_pct_revenue in zip(revenue, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue):
         fcf_multi_years = calculate_fcf_single_year(year_ebit_margin, year_revenue, tax_rate, year_da_pct_revenue, year_capex_pct_revenue, year_nwc_change_pct_revenue)
         fcf.append(fcf_multi_years)
     return fcf
-       
+
+# terminal value calculation code lines
 def terminal_value(fcf_final_year: float, terminal_growth_rate: float, wacc: float):
     if wacc <= terminal_growth_rate:
         raise ValueError("WACC must be greater than the terminal growth rate to calculate terminal value")
     terminal_value = fcf_final_year * (1 + terminal_growth_rate) / (wacc - terminal_growth_rate)
     return terminal_value
 
+# DCF calculation code lines
 def calculate_dcf(fcf:list, wacc:float):
     dcf = []
     for t, cash_flow in enumerate(fcf, start=1):
@@ -57,16 +60,11 @@ def calculate_dcf(fcf:list, wacc:float):
         dcf.append(pv)
     return dcf
 
-def run_dcf_analysis(risk_free_rate:float, beta:float, equity_risk_premium:float, pre_tax_cost_of_debt:float,
-                      tax_rate:float, market_value_of_equity:float, market_value_of_debt:float, base_revenue:float,
+
+# run_dcf_analysis function to combine all calculations and return the final results
+def run_dcf_analysis(tax_rate:float, wacc_value:float, base_revenue:float,
                         growth_rate:list, ebit_margin: list, da_pct_revenue:list, capex_pct_revenue: list,
                           nwc_change_pct_revenue: list, terminal_growth_rate: float, net_debt:float, shares_outstanding:float):
-    # Calculate cost of equity
-    cost_of_equity_value = cost_of_equity(risk_free_rate, beta, equity_risk_premium)
-    # Calculate after-tax cost of debt
-    after_tax_cost_of_debt_value = after_tax_cost_of_debt(pre_tax_cost_of_debt, tax_rate)
-    # Calculate WACC
-    wacc_value = wacc(cost_of_equity_value, after_tax_cost_of_debt_value, market_value_of_equity, market_value_of_debt)
     # Project revenue
     projected_revenue = project_revenue(base_revenue, growth_rate)
     # Project FCF 
@@ -87,10 +85,7 @@ def run_dcf_analysis(risk_free_rate:float, beta:float, equity_risk_premium:float
         "total_enterprise_value": total_enterprise_value,
         "equity_value": equity_value,
         "intrinsic_value_per_share": intrinsic_value_per_share}
-    
 
-
-
-
-                         
-
+# creation of sensitivity analysis function to analyze the impact of changes 
+# in the key assumptions on the DCF valuation (WACC and terminal growth rate)
+ 

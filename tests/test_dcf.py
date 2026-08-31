@@ -41,4 +41,4 @@ def test_calculate_dcf():
 
 #run_dcf_analysis test
 def test_run_dcf_analysis():
-    assert run_dcf_analysis(0.04, 1.2, 0.05, 0.06, 0.25, 800, 200, 1000, [0.10, 0.08], [0.2, 0.25], [0.03, 0.04], [0.04, 0.05], [0.01, 0.02], 0.025, 200, 100) == pytest.approx({'total_enterprise_value': 3040.86480768428, 'equity_value': 2840.86480768428, 'intrinsic_value_per_share': 28.408648076842802})
+    assert run_dcf_analysis(0.25, 0.089, 1000, [0.10, 0.08], [0.2, 0.25], [0.03, 0.04], [0.04, 0.05], [0.01, 0.02], 0.025, 200, 100) == pytest.approx({'total_enterprise_value': 3040.86480768428, 'equity_value': 2840.86480768428, 'intrinsic_value_per_share': 28.408648076842802})

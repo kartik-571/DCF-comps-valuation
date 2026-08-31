@@ -1,6 +1,6 @@
 #Tests for all code functions 
 import pytest
-from finance.dcf import cost_of_equity, after_tax_cost_of_debt, wacc, project_revenue 
+from finance.dcf import cost_of_equity, after_tax_cost_of_debt, wacc, project_revenue, calculate_fcf_single_year
 
 #cost_of_equity test
 def test_cost_of_equity():
@@ -17,3 +17,7 @@ def test_wacc():
 # project_revenue test
 def test_project_revenue():
     assert project_revenue(1000, [0.10, 0.08 ]) == pytest.approx([1100.0, 1188.0])
+
+#single year FCF calculation test
+def test_calculate_fcf_single_year():
+    assert calculate_fcf_single_year(0.2, 1000, 0.25, 0.03, 0.04, 0.01) == pytest.approx(130.0)

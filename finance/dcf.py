@@ -27,4 +27,12 @@ def project_revenue(base_revenue:float, growth_rate:float):
     return growth 
 
 
-    
+# single year FCF calculation code lines
+def calculate_fcf_single_year(ebit_margin: float, revenue: float, tax_rate: float,da_pct_revenue:float, capex_pct_revenue: float,nwc_change_pct_revenue: float):
+    ebit = revenue * ebit_margin
+    nopat = ebit * (1 - tax_rate)
+    da = revenue * da_pct_revenue
+    capex = revenue * capex_pct_revenue
+    change_in_nwc = revenue * nwc_change_pct_revenue
+    fcf = nopat + da - capex - change_in_nwc
+    return fcf

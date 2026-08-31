@@ -50,3 +50,16 @@ def terminal_value(fcf_final_year: float, terminal_growth_rate: float, wacc: flo
     terminal_value = fcf_final_year * (1 + terminal_growth_rate) / (wacc - terminal_growth_rate)
     return terminal_value
 
+def calculate_dcf(fcf:list, wacc:float):
+    dcf = []
+    for t, cash_flow in enumerate(fcf, start=1):
+        pv = cash_flow / (1 + wacc)**t
+        dcf.append(pv)
+    return dcf
+
+
+
+
+
+
+

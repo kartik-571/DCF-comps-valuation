@@ -36,3 +36,11 @@ def calculate_fcf_single_year(ebit_margin: float, revenue: float, tax_rate: floa
     change_in_nwc = revenue * nwc_change_pct_revenue
     fcf = nopat + da - capex - change_in_nwc
     return fcf
+
+def project_fcf(ebit_margin: list, revenue: list, tax_rate: float, da_pct_revenue: list, capex_pct_revenue: list, nwc_change_pct_revenue: list):
+    fcf = []
+    for year_revenue, year_ebit_margin, year_da_pct_revenue, year_capex_pct_revenue, year_nwc_change_pct_revenue in zip(revenue, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue):
+        fcf_multi_years = calculate_fcf_single_year(year_ebit_margin, year_revenue, tax_rate, year_da_pct_revenue, year_capex_pct_revenue, year_nwc_change_pct_revenue)
+        fcf.append(fcf_multi_years)
+    return fcf
+       

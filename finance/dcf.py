@@ -1,3 +1,7 @@
+# This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+# financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+# All the code and script was written, and tested by me.
+
 # Building the cost of equity code lines
 def cost_of_equity(risk_free_rate:float, beta:float, equity_risk_premium:float):
     cost_of_equity = risk_free_rate + beta * equity_risk_premium

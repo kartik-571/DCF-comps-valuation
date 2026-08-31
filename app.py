@@ -1,3 +1,7 @@
+# This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+# financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+# All the code and script was written, and tested by me.
+
 from flask import Flask, request
 
 from finance.dcf import run_dcf_analysis, sensitivity_analysis

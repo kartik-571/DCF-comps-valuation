@@ -1,3 +1,7 @@
+# This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+# financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+# All the code and script was written, and tested by me.
+
 #Tests for all code functions 
 import pytest
 from finance.dcf import calculate_dcf, cost_of_equity, after_tax_cost_of_debt, run_dcf_analysis, terminal_value, wacc, project_revenue, calculate_fcf_single_year, project_fcf, sensitivity_analysis

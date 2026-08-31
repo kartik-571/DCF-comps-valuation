@@ -88,4 +88,29 @@ def run_dcf_analysis(tax_rate:float, wacc_value:float, base_revenue:float,
 
 # creation of sensitivity analysis function to analyze the impact of changes 
 # in the key assumptions on the DCF valuation (WACC and terminal growth rate)
- 
+def sensitivity_analysis(wacc_values: list, terminal_growth_rate_values: list, tax_rate: float, base_revenue: float,
+                          growth_rate: list, ebit_margin: list, da_pct_revenue: list, capex_pct_revenue: list,
+                          nwc_change_pct_revenue: list, net_debt: float, shares_outstanding: float):
+    results = {}
+    for wacc_val in wacc_values:
+        results[wacc_val] = {}
+        for terminal_growth_rate_val in terminal_growth_rate_values:
+            try:
+                dcf_result = run_dcf_analysis(tax_rate, wacc_val, base_revenue, growth_rate,
+                                                  ebit_margin, da_pct_revenue, capex_pct_revenue,
+                                                  nwc_change_pct_revenue, terminal_growth_rate_val,
+                                                  net_debt, shares_outstanding)
+                dcf_result = {"intrinsic_value_per_share" : dcf_result["intrinsic_value_per_share"]}
+            except ValueError:
+                dcf_result = "Invalid"
+            
+            results[wacc_val][terminal_growth_rate_val] = dcf_result
+    return results
+            
+            
+            
+            
+
+                
+    
+    

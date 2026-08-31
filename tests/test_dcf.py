@@ -1,6 +1,6 @@
 #Tests for all code functions 
 import pytest
-from finance.dcf import calculate_dcf, cost_of_equity, after_tax_cost_of_debt, run_dcf_analysis, terminal_value, wacc, project_revenue, calculate_fcf_single_year, project_fcf
+from finance.dcf import calculate_dcf, cost_of_equity, after_tax_cost_of_debt, run_dcf_analysis, terminal_value, wacc, project_revenue, calculate_fcf_single_year, project_fcf, sensitivity_analysis
 
 #cost_of_equity test
 def test_cost_of_equity():
@@ -42,3 +42,8 @@ def test_calculate_dcf():
 #run_dcf_analysis test
 def test_run_dcf_analysis():
     assert run_dcf_analysis(0.25, 0.089, 1000, [0.10, 0.08], [0.2, 0.25], [0.03, 0.04], [0.04, 0.05], [0.01, 0.02], 0.025, 200, 100) == pytest.approx({'total_enterprise_value': 3040.86480768428, 'equity_value': 2840.86480768428, 'intrinsic_value_per_share': 28.408648076842802})
+
+def test_sensitivity_analysis():
+    table = sensitivity_analysis([0.08, 0.02], [0.02, 0.03], 0.25, 1000, [0.10, 0.08], [0.2, 0.25], [0.03, 0.04], [0.04, 0.05], [0.01, 0.02], 200, 100)
+    assert table[0.08][0.02]['intrinsic_value_per_share'] == pytest.approx(30.380740740740734)
+    assert table[0.02][0.02] == "Invalid"

@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from finance.dcf import run_dcf_analysis
+from finance.dcf import run_dcf_analysis, sensitivity_analysis
 
 app = Flask(__name__)
 
@@ -18,8 +18,12 @@ def home():
         terminal_growth_rate = float(request.form["terminal_growth_rate"])
         net_debt = float(request.form["net_debt"])
         shares_outstanding = float(request.form["shares_outstanding"])
+        wacc_values = [float (x) for x in request.form["wacc_values"].split(",")]
+        terminal_growth_rate_values = [float (x) for x in request.form["terminal_growth_rate_values"].split(",")]
+        sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
         dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
-        return f"DCF Result: {dcf_result}"
+
+        return f"DCF Result: {dcf_result} Sensitivity Analysis Result: {sensitivity_table_result}"
     return '''
         <form method="POST">
             Tax Rate: <input type="text" name="tax_rate">
@@ -33,6 +37,8 @@ def home():
             Terminal Growth Rate: <input type="text" name="terminal_growth_rate">
             Net Debt: <input type="text" name="net_debt">
             Shares Outstanding: <input type="text" name="shares_outstanding">
+            WACC Values (comma-separated): <input type="text" name="wacc_values">
+            Terminal Growth Rate Values (comma-separated): <input type="text" name="terminal_growth_rate_values">
             <input type="submit" value="Submit">
             
 

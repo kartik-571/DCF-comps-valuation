@@ -61,6 +61,9 @@ def comps():
         cash_and_cash_equivalents = [float(x) for x in request.form["cash_and_cash_equivalents"].split(",")]
         ebit = [float(x) for x in request.form["ebit"].split(",")]
         d_and_a = [float(x) for x in request.form["d_and_a"].split(",")]
+        sort_by = request.form["sort_by"]
+        filter_by = request.form["filter_by"]
+        cut_off = float(request.form["cut_off"])
         companies = []
         for sp, e, so, to, cace, eb, da in zip(share_price, eps, shares_outstanding, total_debt, cash_and_cash_equivalents, ebit, d_and_a):
             companies.append({
@@ -73,7 +76,9 @@ def comps():
                 "d_and_a": da
             })
         comp_result = comp_multiple_calculation(companies)
-        return f"Comps inputs processed successfully: {comp_result}"
+        sorted_comp_result = rank_comps(comp_result, sort_by)
+        filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
+        return f"Comps inputs processed successfully: {comp_result} Results of Comps sorted :{sorted_comp_result} Results of Comps filtered:{filtered_comp_result}"
 
     return '''
 <form method="POST">
@@ -84,6 +89,9 @@ def comps():
             Cash and Cash Equivalents(comma-separated): <input type="text" name="cash_and_cash_equivalents">
             EBIT (comma-separated): <input type="text" name="ebit">
             D and A (comma-separated): <input type="text" name="d_and_a">
+            Sort By <input type="text" name="sort_by">
+            Filter By <input type="text" name="filter_by">
+            Cut Off <input type ="text" name="cut_off">
             <input type="submit" value="Submit">
             </form>
             '''

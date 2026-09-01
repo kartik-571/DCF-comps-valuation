@@ -1,3 +1,7 @@
+# This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+# financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+# All the code and script was written, and tested by me.
+
 import pytest
 from finance.comps import comp_single_calculation, comp_multiple_calculation, rank_comps, filter_comps
 

@@ -1,3 +1,7 @@
+# This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+# financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+# All the code and script was written, and tested by me.
+
 #code for comp evaluation
 def comp_single_calculation(company:dict):
     if company["eps"] == 0:

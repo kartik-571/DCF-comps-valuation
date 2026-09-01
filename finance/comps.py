@@ -20,7 +20,19 @@ def comp_multiple_calculation(companies:list[dict]):
         results = comp_single_calculation(company)
         comps.append(results)
     return comps
+
+
+# ranking based on p_e
+def rank_comps(comps_list:list,sort_by:str  ):
+      companies_sorted = sorted(comps_list, key= lambda company: company[sort_by])
+      for x, ordered_companies in enumerate(companies_sorted, start=1):
+            ordered_companies["rank"] = x
+      return companies_sorted
             
+          
+
+
+     
 
 
        

@@ -51,3 +51,5 @@ def test_sensitivity_analysis():
     table = sensitivity_analysis([0.08, 0.02], [0.02, 0.03], 0.25, 1000, [0.10, 0.08], [0.2, 0.25], [0.03, 0.04], [0.04, 0.05], [0.01, 0.02], 200, 100)
     assert table[0.08][0.02]['intrinsic_value_per_share'] == pytest.approx(30.380740740740734)
     assert table[0.02][0.02] == "Invalid"
+
+

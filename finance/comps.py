@@ -13,6 +13,18 @@ def comp_single_calculation(company:dict):
         "pe_ratio": pe_ratio,
         "ev_ebitda_ratio": ev_ebitda_ratio,
     }
+
+def comp_multiple_calculation(companies:list[dict]):
+    comps = []
+    for company in companies:
+        results = comp_single_calculation(company)
+        comps.append(results)
+    return comps
+            
+
+
+       
+       
     
     
 

@@ -12,23 +12,28 @@ app = Flask(__name__)
 @app.route('/', methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        tax_rate = float(request.form["tax_rate"])
-        wacc_value = float(request.form["wacc"])
-        base_revenue = float(request.form["base_revenue"])
-        growth_rate = [float (x) for x in request.form["growth_rate"].split(",")]
-        ebit_margin = [float (x) for x in request.form["ebit_margin"].split(",")]
-        da_pct_revenue = [float (x) for x in request.form["da_pct_revenue"].split(",")]
-        capex_pct_revenue = [float (x) for x in request.form["capex_pct_revenue"].split(",")]
-        nwc_change_pct_revenue = [float (x) for x in request.form["nwc_change_pct_revenue"].split(",")]
-        terminal_growth_rate = float(request.form["terminal_growth_rate"])
-        net_debt = float(request.form["net_debt"])
-        shares_outstanding = float(request.form["shares_outstanding"])
-        wacc_values = [float (x) for x in request.form["wacc_values"].split(",")]
-        terminal_growth_rate_values = [float (x) for x in request.form["terminal_growth_rate_values"].split(",")]
-        sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
-        dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
+        try:
+            tax_rate = float(request.form["tax_rate"])
+            wacc_value = float(request.form["wacc"])
+            base_revenue = float(request.form["base_revenue"])
+            growth_rate = [float (x) for x in request.form["growth_rate"].split(",")]
+            ebit_margin = [float (x) for x in request.form["ebit_margin"].split(",")]
+            da_pct_revenue = [float (x) for x in request.form["da_pct_revenue"].split(",")]
+            capex_pct_revenue = [float (x) for x in request.form["capex_pct_revenue"].split(",")]
+            nwc_change_pct_revenue = [float (x) for x in request.form["nwc_change_pct_revenue"].split(",")]
+            terminal_growth_rate = float(request.form["terminal_growth_rate"])
+            net_debt = float(request.form["net_debt"])
+            shares_outstanding = float(request.form["shares_outstanding"])
+            wacc_values = [float (x) for x in request.form["wacc_values"].split(",")]
+            terminal_growth_rate_values = [float (x) for x in request.form["terminal_growth_rate_values"].split(",")]
+            sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
+            dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
+            
+            return f"DCF Result: {dcf_result} Sensitivity Analysis Result: {sensitivity_table_result}"
+        except ValueError:
+            return f"ERROR please check your inputs are all filled correctly"
 
-        return f"DCF Result: {dcf_result} Sensitivity Analysis Result: {sensitivity_table_result}"
+        
     return '''
         <form method="POST">
             Tax Rate: <input type="text" name="tax_rate">
@@ -54,31 +59,37 @@ def home():
 @app.route('/comps', methods=["GET", "POST"])
 def comps():
     if request.method == "POST":
-        share_price = [float(x) for x in request.form["share_price"].split(",")]
-        eps = [float(x) for x in request.form["eps"].split(",")]
-        shares_outstanding = [float(x) for x in request.form["shares_outstanding"].split(",")]
-        total_debt = [float(x) for x in request.form["total_debt"].split(",")]
-        cash_and_cash_equivalents = [float(x) for x in request.form["cash_and_cash_equivalents"].split(",")]
-        ebit = [float(x) for x in request.form["ebit"].split(",")]
-        d_and_a = [float(x) for x in request.form["d_and_a"].split(",")]
-        sort_by = request.form["sort_by"]
-        filter_by = request.form["filter_by"]
-        cut_off = float(request.form["cut_off"])
-        companies = []
-        for sp, e, so, to, cace, eb, da in zip(share_price, eps, shares_outstanding, total_debt, cash_and_cash_equivalents, ebit, d_and_a):
-            companies.append({
-                "share_price": sp,
-                "eps": e,
-                "shares_outstanding": so,
-                "total_debt": to,
-                "cash_and_cash_equivalents": cace,
-                "ebit": eb,
-                "d_and_a": da
-            })
-        comp_result = comp_multiple_calculation(companies)
-        sorted_comp_result = rank_comps(comp_result, sort_by)
-        filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
-        return f"Comps inputs processed successfully: {comp_result} Results of Comps sorted :{sorted_comp_result} Results of Comps filtered:{filtered_comp_result}"
+        try:
+            share_price = [float(x) for x in request.form["share_price"].split(",")]
+            eps = [float(x) for x in request.form["eps"].split(",")]
+            shares_outstanding = [float(x) for x in request.form["shares_outstanding"].split(",")]
+            total_debt = [float(x) for x in request.form["total_debt"].split(",")]
+            cash_and_cash_equivalents = [float(x) for x in request.form["cash_and_cash_equivalents"].split(",")]
+            ebit = [float(x) for x in request.form["ebit"].split(",")]
+            d_and_a = [float(x) for x in request.form["d_and_a"].split(",")]
+            sort_by = request.form["sort_by"]
+            filter_by = request.form["filter_by"]
+            cut_off = float(request.form["cut_off"])
+            companies = []
+            for sp, e, so, to, cace, eb, da in zip(share_price, eps, shares_outstanding, total_debt, cash_and_cash_equivalents, ebit, d_and_a):
+                        companies.append({
+                            "share_price": sp,
+                            "eps": e,
+                            "shares_outstanding": so,
+                            "total_debt": to,
+                            "cash_and_cash_equivalents": cace,
+                            "ebit": eb,
+                            "d_and_a": da
+                        })
+            comp_result = comp_multiple_calculation(companies)
+            sorted_comp_result = rank_comps(comp_result, sort_by)
+            filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
+            return f"Comps inputs processed successfully: {comp_result} Results of Comps sorted :{sorted_comp_result} Results of Comps filtered:{filtered_comp_result}"
+        except ValueError:
+            return f"Error please check that your inputs were all filled in correctly "
+
+
+        
 
     return '''
 <form method="POST">

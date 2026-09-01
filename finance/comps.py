@@ -30,7 +30,16 @@ def rank_comps(comps_list:list,sort_by:str  ):
       return companies_sorted
             
           
-
+# filtering companies based on conditions 
+def filter_comps(companies_sorted:list,filter_by:str, cut_off:float ):
+            filtered_companies = []
+            for company in companies_sorted:
+                  if company[filter_by] < cut_off:
+                        filtered_companies.append(company)
+            return filtered_companies
+                  
+      
+      
 
      
 

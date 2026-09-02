@@ -42,35 +42,27 @@ def home():
 def comps():
     if request.method == "POST":
         try:
-            share_price = [float(x) for x in request.form["share_price"].split(",")]
-            eps = [float(x) for x in request.form["eps"].split(",")]
-            shares_outstanding = [float(x) for x in request.form["shares_outstanding"].split(",")]
-            total_debt = [float(x) for x in request.form["total_debt"].split(",")]
-            cash_and_cash_equivalents = [float(x) for x in request.form["cash_and_cash_equivalents"].split(",")]
-            ebit = [float(x) for x in request.form["ebit"].split(",")]
-            d_and_a = [float(x) for x in request.form["d_and_a"].split(",")]
             sort_by = request.form["sort_by"]
             filter_by = request.form["filter_by"]
             cut_off = float(request.form["cut_off"])
-            if not (len(share_price) == len(eps) == len(shares_outstanding) == len(total_debt) == len(cash_and_cash_equivalents) == len(ebit)== len(d_and_a)):
-                 raise ValueError("All input lists must have the same length.")
             companies = []
-            for sp, e, so, to, cace, eb, da in zip(share_price, eps, shares_outstanding, total_debt, cash_and_cash_equivalents, ebit, d_and_a):
-                        companies.append({
-                            "share_price": sp,
-                            "eps": e,
-                            "shares_outstanding": so,
-                            "total_debt": to,
-                            "cash_and_cash_equivalents": cace,
-                            "ebit": eb,
-                            "d_and_a": da
-                        })
+            company_count = int(request.form["company_count"])
+            for i in range(1, company_count + 1):
+                 companies.append({
+                 "share_price": float(request.form[f"share_price_{i}"]),
+                 "eps": float(request.form[f"eps_{i}"]),
+                 "shares_outstanding": float(request.form[f"shares_outstanding_{i}"]),
+                 "total_debt": float(request.form[f"total_debt_{i}"]),
+                 "cash_and_cash_equivalents": float(request.form[f"cash_and_cash_equivalents_{i}"]),
+                 "ebit": float(request.form[f"ebit_{i}"]),
+                 "d_and_a": float(request.form[f"d_and_a_{i}"])
+                    })
             comp_result = comp_multiple_calculation(companies)
             sorted_comp_result = rank_comps(comp_result, sort_by)
             filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
             return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)
         except ValueError as e:
-            return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers and lists are comma-separated.")
+            return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers.")
     return render_template('comps.html')
 
 

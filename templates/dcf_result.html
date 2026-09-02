@@ -20,8 +20,9 @@
     </table>
     <h2>Sensitivity Analysis Results</h2>
     <table>
+        <caption>Sensitivity Analysis: Rows = WACC, Columns = Terminal Growth Rates</caption>
         <tr>
-            <th>WACC</th>
+            <th>Your Result: {{ dcf_result.intrinsic_value_per_share }}</th>
             {% for terminal_growth, column in (sensitivity_table_result.values()|first).items() %}
             <th>{{ terminal_growth }}</th>
             {% endfor %}

@@ -1,3 +1,7 @@
+<!--This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+ financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+ All the code and script was written, and tested by me-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head> 
@@ -5,6 +9,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <nav>
+        <a href="/">DCF Calculator</a>
+        <a href="/comps">Comps Calculator</a>
+    </nav>
     {% block content %}
     {% endblock %}
 </body>

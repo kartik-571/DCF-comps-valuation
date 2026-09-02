@@ -13,8 +13,10 @@
             Cash and Cash Equivalents(comma-separated): <input type="text" name="cash_and_cash_equivalents">
             EBIT (comma-separated): <input type="text" name="ebit">
             D and A (comma-separated): <input type="text" name="d_and_a">
-            Sort By <input type="text" name="sort_by">
-            Filter By <input type="text" name="filter_by">
+            <select name="sort_by">
+                <option value="pe_ratio">P/E Ratio </option>
+                <option value="ev_ebitda_ratio">EV/EBITDA Ratio</option>
+            </select>
             Cut Off <input type ="text" name="cut_off">
             <input type="submit" value="Submit">
             </form>

@@ -1,19 +1,52 @@
+<!--This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+ financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+ All the code and script was written, and tested by me-->
+
 {% extends "base.html" %}
 {% block title %}Comps Results{% endblock %}
 {% block content %}
     <h1>Comparable Companies Valuation Results</h1>
-    {% for comp in comp_result %}
-        <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
-        <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
-    {% endfor %}
-    {% for comp in sorted_comp_result %}
-        <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
-        <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
-        <p> Company Rank: {{ comp.rank }}</p>
-    {% endfor %}
-    {% for comp in filtered_comp_result %}
-        <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
-        <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
-        <p> Company Rank: {{ comp.rank }}</p>
-    {% endfor %}
+    <h2>Raw Results</h2>
+    <table>
+        <tr>
+            <th>P/E Ratio</th>
+            <th>EV/EBITDA Ratio</th>
+        </tr>
+        {% for comp in comp_result %}
+        <tr>
+            <td>{{ comp.pe_ratio }}</td>
+            <td>{{ comp.ev_ebitda_ratio }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Sorted Results</h3>
+    <table>
+        <tr>
+            <th>P/E Ratio</th>
+            <th>EV/EBITDA Ratio</th>
+            <th>Rank</th>
+        </tr>
+        {% for comp in sorted_comp_result %}
+        <tr>
+            <td>{{ comp.pe_ratio }}</td>
+            <td>{{ comp.ev_ebitda_ratio }}</td>
+            <td>{{ comp.rank }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h4>Filtered Results</h4>
+    <table>
+        <tr>
+            <th>P/E Ratio</th>
+            <th>EV/EBITDA Ratio</th>
+            <th>Rank</th>
+        </tr>
+        {% for comp in filtered_comp_result %}
+        <tr>
+            <td>{{ comp.pe_ratio }}</td>
+            <td>{{ comp.ev_ebitda_ratio }}</td>
+            <td>{{ comp.rank }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}

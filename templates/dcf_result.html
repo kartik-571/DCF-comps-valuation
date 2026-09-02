@@ -1,15 +1,38 @@
+<!--This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
+ financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
+ All the code and script was written, and tested by me-->
+
 {% extends "base.html" %}
 {% block title %}DCF calculator{% endblock %}
 {% block content %}
     <h1>DCF valuation results</h1>
-    <p> Total Enterprise Value: {{ dcf_result.total_enterprise_value }}</p>
-    <p> Equity Value: {{ dcf_result.equity_value }}</p>
-    <p> Intrinsic Value per Share: {{ dcf_result.intrinsic_value_per_share }}</p>
+    <table>
+        <tr>
+            <th> Total Enterprise Value</th>
+            <th> Equity Value</th>
+            <th> Intrinsic Value per Share</th>
+        </tr>
+        <tr>
+            <td>{{ dcf_result.total_enterprise_value }}</td>
+            <td>{{ dcf_result.equity_value }}</td>
+            <td>{{ dcf_result.intrinsic_value_per_share }}</td>
+        </tr>
+    </table>
     <h2>Sensitivity Analysis Results</h2>
-    {% for wacc, row in sensitivity_table_result.items() %}
-       <p> WACC: {{ wacc }}</p>
-       {% for terminal_growth, result in row.items() %}
-          <p> Terminal Growth Rate: {{ terminal_growth }}, Result: {{ result.intrinsic_value_per_share }}</p>
-       {% endfor %}
-    {% endfor %}
+    <table>
+        <tr>
+            <th>WACC</th>
+            {% for terminal_growth, column in (sensitivity_table_result.values()|first).items() %}
+            <th>{{ terminal_growth }}</th>
+            {% endfor %}
+        </tr>
+        {% for wacc, row in sensitivity_table_result.items() %}
+        <tr>
+            <td>{{ wacc }}</td>
+            {% for terminal_growth, column in row.items() %}
+            <td>{{ column.intrinsic_value_per_share }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DCF Result</title>
+</head>
+<body>
+    <h1>DCF valuation results</h1>
+    <p> Total Enterprise Value: {{ dcf_result.total_enterprise_value }}</p>
+    <p> Equity Value: {{ dcf_result.equity_value }}</p>
+    <p> Intrinsic Value per Share: {{ dcf_result.intrinsic_value_per_share }}</p>
+    <h2>Sensitivity Analysis Results</h2>
+    {% for wacc, row in sensitivity_table_result.items() %}
+       <p> WACC: {{ wacc }}</p>
+       {% for terminal_growth, result in row.items() %}
+          <p> Terminal Growth Rate: {{ terminal_growth }}, Result: {{ result }}</p>
+       {% endfor %}
+    {% endfor %}
+</body>
+</html>

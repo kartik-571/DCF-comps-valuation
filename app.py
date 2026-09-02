@@ -2,7 +2,7 @@
 # financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
 # All the code and script was written, and tested by me.
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from finance.dcf import run_dcf_analysis, sensitivity_analysis
 from finance.comps import comp_multiple_calculation,rank_comps, filter_comps
@@ -29,31 +29,12 @@ def home():
             sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
             dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
             
-            return f"DCF Result: {dcf_result} Sensitivity Analysis Result: {sensitivity_table_result}"
+            return render_template("dcf_result.html", dcf_result=dcf_result, sensitivity_table_result=sensitivity_table_result)
         except ValueError:
             return f"ERROR please check your inputs are all filled correctly"
 
         
-    return '''
-        <form method="POST">
-            Tax Rate: <input type="text" name="tax_rate">
-            WACC: <input type="text" name="wacc">
-            Base Revenue: <input type="text" name="base_revenue">
-            Growth Rate (comma-separated): <input type="text" name="growth_rate">
-            EBIT Margin (comma-separated): <input type="text" name="ebit_margin">
-            DA % Revenue (comma-separated): <input type="text" name="da_pct_revenue">
-            Capex % Revenue (comma-separated): <input type="text" name="capex_pct_revenue">
-            NWC Change % Revenue (comma-separated): <input type="text" name="nwc_change_pct_revenue">
-            Terminal Growth Rate: <input type="text" name="terminal_growth_rate">
-            Net Debt: <input type="text" name="net_debt">
-            Shares Outstanding: <input type="text" name="shares_outstanding">
-            WACC Values (comma-separated): <input type="text" name="wacc_values">
-            Terminal Growth Rate Values (comma-separated): <input type="text" name="terminal_growth_rate_values">
-            <input type="submit" value="Submit">
-            
-
-            </form>
-            '''
+    return render_template('home.html')
 
 
 @app.route('/comps', methods=["GET", "POST"])
@@ -87,25 +68,8 @@ def comps():
             return f"Comps inputs processed successfully: {comp_result} Results of Comps sorted :{sorted_comp_result} Results of Comps filtered:{filtered_comp_result}"
         except ValueError:
             return f"Error please check that your inputs were all filled in correctly "
+    return render_template('comps.html')
 
-
-        
-
-    return '''
-<form method="POST">
-            Share Price (comma-separated): <input type="text" name="share_price">
-            EPS (comma-separated): <input type="text" name="eps">
-            Shares Outstanding(comma-separated): <input type="text" name="shares_outstanding">
-            Total Debt(comma-separated): <input type="text" name="total_debt">
-            Cash and Cash Equivalents(comma-separated): <input type="text" name="cash_and_cash_equivalents">
-            EBIT (comma-separated): <input type="text" name="ebit">
-            D and A (comma-separated): <input type="text" name="d_and_a">
-            Sort By <input type="text" name="sort_by">
-            Filter By <input type="text" name="filter_by">
-            Cut Off <input type ="text" name="cut_off">
-            <input type="submit" value="Submit">
-            </form>
-            '''
 
 if __name__ == '__main__':
     app.run(debug=True)

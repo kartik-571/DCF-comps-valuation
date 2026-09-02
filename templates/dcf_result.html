@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>DCF Result</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}DCF calculator{% endblock %}
+{% block content %}
     <h1>DCF valuation results</h1>
     <p> Total Enterprise Value: {{ dcf_result.total_enterprise_value }}</p>
     <p> Equity Value: {{ dcf_result.equity_value }}</p>
@@ -15,5 +12,4 @@
           <p> Terminal Growth Rate: {{ terminal_growth }}, Result: {{ result.intrinsic_value_per_share }}</p>
        {% endfor %}
     {% endfor %}
-</body>
-</html>
+{% endblock content %}

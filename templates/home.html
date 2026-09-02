@@ -2,13 +2,9 @@
  financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
  All the code and script was written, and tested by me-->
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>DCF Valuation Tool</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}DCF calculator{% endblock %}
+{% block content %}
 <form method="POST">
             Tax Rate: <input type="text" name="tax_rate">
             WACC: <input type="text" name="wacc">
@@ -25,6 +21,4 @@
             Terminal Growth Rate Values (comma-separated): <input type="text" name="terminal_growth_rate_values">
             <input type="submit" value="Submit">
             </form>
-</body>
-</html>
-
+{% endblock content %}

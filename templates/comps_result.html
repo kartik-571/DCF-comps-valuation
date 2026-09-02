@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Comps Result</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Comps Results{% endblock %}
+{% block content %}
     <h1>Comparable Companies Valuation Results</h1>
     {% for comp in comp_result %}
         <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
@@ -19,6 +16,4 @@
         <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
         <p> Company Rank: {{ comp.rank }}</p>
     {% endfor %}
-</body>
-</html>
-
+{% endblock content %}

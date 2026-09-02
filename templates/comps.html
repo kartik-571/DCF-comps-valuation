@@ -2,15 +2,9 @@
  financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
  All the code and script was written, and tested by me-->
 
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>DCF and Comps Valuation</title>
-    </head>
- <body>
+{% extends "base.html" %}
+{% block title %}DCF calculator{% endblock %}
+{% block content %}
     <form method="POST">
             Share Price (comma-separated): <input type="text" name="share_price">
             EPS (comma-separated): <input type="text" name="eps">
@@ -24,5 +18,4 @@
             Cut Off <input type ="text" name="cut_off">
             <input type="submit" value="Submit">
             </form>
- </body>   
-</html>    
+ {% endblock content %}

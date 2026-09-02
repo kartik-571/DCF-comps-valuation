@@ -26,12 +26,13 @@ def home():
             shares_outstanding = float(request.form["shares_outstanding"])
             wacc_values = [float (x) for x in request.form["wacc_values"].split(",")]
             terminal_growth_rate_values = [float (x) for x in request.form["terminal_growth_rate_values"].split(",")]
+            if not (len(growth_rate) == len(ebit_margin) == len(da_pct_revenue) == len(capex_pct_revenue) == len(nwc_change_pct_revenue)):
+                 raise ValueError("All input lists must have the same length.")
             sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
             dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
-            
             return render_template("dcf_result.html", dcf_result=dcf_result, sensitivity_table_result=sensitivity_table_result)
-        except ValueError:
-            return f"ERROR please check your inputs are all filled correctly"
+        except ValueError as e:
+            return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers and lists are comma-separated.")
 
         
     return render_template('home.html')
@@ -51,6 +52,8 @@ def comps():
             sort_by = request.form["sort_by"]
             filter_by = request.form["filter_by"]
             cut_off = float(request.form["cut_off"])
+            if not (len(share_price) == len(eps) == len(shares_outstanding) == len(total_debt) == len(cash_and_cash_equivalents) == len(ebit)== len(d_and_a)):
+                 raise ValueError("All input lists must have the same length.")
             companies = []
             for sp, e, so, to, cace, eb, da in zip(share_price, eps, shares_outstanding, total_debt, cash_and_cash_equivalents, ebit, d_and_a):
                         companies.append({
@@ -66,8 +69,8 @@ def comps():
             sorted_comp_result = rank_comps(comp_result, sort_by)
             filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
             return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)
-        except ValueError:
-            return f"Error please check that your inputs were all filled in correctly "
+        except ValueError as e:
+            return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers and lists are comma-separated.")
     return render_template('comps.html')
 
 

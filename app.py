@@ -65,7 +65,7 @@ def comps():
             comp_result = comp_multiple_calculation(companies)
             sorted_comp_result = rank_comps(comp_result, sort_by)
             filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
-            return f"Comps inputs processed successfully: {comp_result} Results of Comps sorted :{sorted_comp_result} Results of Comps filtered:{filtered_comp_result}"
+            return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)
         except ValueError:
             return f"Error please check that your inputs were all filled in correctly "
     return render_template('comps.html')

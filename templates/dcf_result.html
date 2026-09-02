@@ -12,7 +12,7 @@
     {% for wacc, row in sensitivity_table_result.items() %}
        <p> WACC: {{ wacc }}</p>
        {% for terminal_growth, result in row.items() %}
-          <p> Terminal Growth Rate: {{ terminal_growth }}, Result: {{ result }}</p>
+          <p> Terminal Growth Rate: {{ terminal_growth }}, Result: {{ result.intrinsic_value_per_share }}</p>
        {% endfor %}
     {% endfor %}
 </body>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Comps Result</title>
+</head>
+<body>
+    <h1>Comparable Companies Valuation Results</h1>
+    {% for comp in comp_result %}
+        <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
+        <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
+    {% endfor %}
+    {% for comp in sorted_comp_result %}
+        <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
+        <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
+        <p> Company Rank: {{ comp.rank }}</p>
+    {% endfor %}
+    {% for comp in filtered_comp_result %}
+        <p> Company P/E Ratio: {{ comp.pe_ratio }}</p>
+        <p> Company EV/EBITDA Ratio: {{ comp.ev_ebitda_ratio }}</p>
+        <p> Company Rank: {{ comp.rank }}</p>
+    {% endfor %}
+</body>
+</html>
+

@@ -17,7 +17,7 @@
             Terminal Growth Rate: <input type="text" name="terminal_growth_rate">
             Net Debt: <input type="text" name="net_debt">
             Shares Outstanding: <input type="text" name="shares_outstanding">
-            WACC Values (comma-separated): <input type="text" name="wacc_values">
+            WACC Values (comma-separated): <input type="text" name="wacc_values" value="{{ generated_range.range_string if generated_range else '' }}">
             Terminal Growth Rate Values (comma-separated): <input type="text" name="terminal_growth_rate_values">
             <input type="submit" value="Submit">
 </form>

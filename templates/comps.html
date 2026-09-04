@@ -5,16 +5,20 @@
 {% extends "base.html" %}
 {% block title %}Comps calculator{% endblock %}
 {% block content %}
+<form method="POST">
+    <input type="text" name="ticker" placeholder="e.g AAPL">
+    <input type="submit" value="Fetch Data">
+</form>
     <form method="POST">
         <div id="companies-container">
             <div class="company-row">
-            Share Price: <input type="text" name="share_price_1">
-            EPS: <input type="text" name="eps_1">
-            Shares: <input type="text" name="shares_outstanding_1">
-            Total Debt: <input type="text" name="total_debt_1">
-            Cash and Cash Equivalents: <input type="text" name="cash_and_cash_equivalents_1">
-            EBIT: <input type="text" name="ebit_1">
-            D and A: <input type="text" name="d_and_a_1">
+            Share Price: <input type="text" name="share_price_1" value="{{ fetched_data.share_price if fetched_data else '' }}">
+            EPS: <input type="text" name="eps_1" value="{{ fetched_data.eps if fetched_data else '' }}">
+            Shares: <input type="text" name="shares_outstanding_1" value="{{ fetched_data.shares_outstanding if fetched_data else '' }}">
+            Total Debt: <input type="text" name="total_debt_1" value="{{ fetched_data.total_debt if fetched_data else '' }}">
+            Cash and Cash Equivalents: <input type="text" name="cash_and_cash_equivalents_1" value="{{ fetched_data.cash_and_cash_equivalents if fetched_data else '' }}">
+            EBIT: <input type="text" name="ebit_1" value="{{ fetched_data.ebit if fetched_data else '' }}">
+            D and A: <input type="text" name="d_and_a_1" value="{{ fetched_data.d_and_a if fetched_data else '' }}">
             </div>
             </div>
             <button type="button" id="add-company">+ Add Company</button>
@@ -52,3 +56,4 @@
                 });
                  </script>
  {% endblock content %}
+ 

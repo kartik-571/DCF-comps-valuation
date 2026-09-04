@@ -41,20 +41,4 @@ def filter_comps(companies_sorted:list,filter_by:str, cut_off:float ):
                   if company[filter_by] < cut_off:
                         filtered_companies.append(company)
             return filtered_companies
-                  
-      
-      
-
-     
-
-
-       
-       
     
-    
-
-
-
-
-
-

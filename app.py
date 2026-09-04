@@ -1,11 +1,14 @@
 # This DCF model was developed with the help of claude AI, and it was mainly used to help with understanding 
 # financial terminology, equations and concepts as well as help with reviewing and pointing out potential bugs in code.
 # All the code and script was written, and tested by me.
-
+from dotenv import load_dotenv
+import os
 from flask import Flask, request, render_template
-
+from finance.data_fetch import fetch_company_data
 from finance.dcf import run_dcf_analysis, sensitivity_analysis
 from finance.comps import comp_multiple_calculation,rank_comps, filter_comps
+load_dotenv()
+api_key = os.getenv("FMP_API_KEY")
 
 app = Flask(__name__)
 
@@ -41,30 +44,36 @@ def home():
 @app.route('/comps', methods=["GET", "POST"])
 def comps():
     if request.method == "POST":
-        try:
-            sort_by = request.form["sort_by"]
-            filter_by = request.form["filter_by"]
-            cut_off = float(request.form["cut_off"])
-            companies = []
-            company_count = int(request.form["company_count"])
-            for i in range(1, company_count + 1):
-                 companies.append({
-                 "share_price": float(request.form[f"share_price_{i}"]),
-                 "eps": float(request.form[f"eps_{i}"]),
-                 "shares_outstanding": float(request.form[f"shares_outstanding_{i}"]),
-                 "total_debt": float(request.form[f"total_debt_{i}"]),
-                 "cash_and_cash_equivalents": float(request.form[f"cash_and_cash_equivalents_{i}"]),
-                 "ebit": float(request.form[f"ebit_{i}"]),
-                 "d_and_a": float(request.form[f"d_and_a_{i}"])
-                    })
-            comp_result = comp_multiple_calculation(companies)
-            sorted_comp_result = rank_comps(comp_result, sort_by)
-            filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
-            return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)
-        except ValueError as e:
-            return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers.")
+        if "ticker" in request.form:
+            ticker = request.form["ticker"]
+            fetched_data = fetch_company_data(ticker, api_key)
+            return render_template("comps.html", fetched_data=fetched_data)
+        else:
+            try:
+                sort_by = request.form["sort_by"]
+                filter_by = request.form["filter_by"]
+                cut_off = float(request.form["cut_off"])
+                companies = []
+                company_count = int(request.form["company_count"])
+                for i in range(1, company_count + 1):
+                    companies.append({
+                    "share_price": float(request.form[f"share_price_{i}"]),
+                    "eps": float(request.form[f"eps_{i}"]),
+                    "shares_outstanding": float(request.form[f"shares_outstanding_{i}"]),
+                    "total_debt": float(request.form[f"total_debt_{i}"]),
+                    "cash_and_cash_equivalents": float(request.form[f"cash_and_cash_equivalents_{i}"]),
+                    "ebit": float(request.form[f"ebit_{i}"]),
+                    "d_and_a": float(request.form[f"d_and_a_{i}"])
+                       })
+                comp_result = comp_multiple_calculation(companies)
+                sorted_comp_result = rank_comps(comp_result, sort_by)
+                filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
+                return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)
+            except ValueError as e:
+                return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers.")
     return render_template('comps.html')
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+    

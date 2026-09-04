@@ -110,11 +110,3 @@ def sensitivity_analysis(wacc_values: list, terminal_growth_rate_values: list, t
             
             results[wacc_val][terminal_growth_rate_val] = dcf_result
     return results
-            
-            
-            
-            
-
-                
-    
-    

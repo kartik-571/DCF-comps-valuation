@@ -20,5 +20,12 @@
             WACC Values (comma-separated): <input type="text" name="wacc_values">
             Terminal Growth Rate Values (comma-separated): <input type="text" name="terminal_growth_rate_values">
             <input type="submit" value="Submit">
+</form>
+<form method="POST">
+             Auto-generate WACC ranges:
+            <input type="text" name="centre" placeholder="Centre Value">
+            <input type="text" name="step" placeholder="Step Value">
+            <input type="text" name="number_of_steps" placeholder="Number of Steps">
+            <input type="submit" value="Generate Range">
             </form>
 {% endblock content %}

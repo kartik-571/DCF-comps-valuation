@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import os
 from flask import Flask, request, render_template
 from finance.data_fetch import fetch_company_data
-from finance.dcf import run_dcf_analysis, sensitivity_analysis
+from finance.dcf import generate_range, run_dcf_analysis, sensitivity_analysis
 from finance.comps import comp_multiple_calculation,rank_comps, filter_comps
 load_dotenv()
 api_key = os.getenv("FMP_API_KEY")
@@ -15,29 +15,34 @@ app = Flask(__name__)
 @app.route('/', methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        try:
-            tax_rate = float(request.form["tax_rate"])
-            wacc_value = float(request.form["wacc"])
-            base_revenue = float(request.form["base_revenue"])
-            growth_rate = [float (x) for x in request.form["growth_rate"].split(",")]
-            ebit_margin = [float (x) for x in request.form["ebit_margin"].split(",")]
-            da_pct_revenue = [float (x) for x in request.form["da_pct_revenue"].split(",")]
-            capex_pct_revenue = [float (x) for x in request.form["capex_pct_revenue"].split(",")]
-            nwc_change_pct_revenue = [float (x) for x in request.form["nwc_change_pct_revenue"].split(",")]
-            terminal_growth_rate = float(request.form["terminal_growth_rate"])
-            net_debt = float(request.form["net_debt"])
-            shares_outstanding = float(request.form["shares_outstanding"])
-            wacc_values = [float (x) for x in request.form["wacc_values"].split(",")]
-            terminal_growth_rate_values = [float (x) for x in request.form["terminal_growth_rate_values"].split(",")]
-            if not (len(growth_rate) == len(ebit_margin) == len(da_pct_revenue) == len(capex_pct_revenue) == len(nwc_change_pct_revenue)):
-                 raise ValueError("All input lists must have the same length.")
-            sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
-            dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
-            return render_template("dcf_result.html", dcf_result=dcf_result, sensitivity_table_result=sensitivity_table_result)
-        except ValueError as e:
-            return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers and lists are comma-separated.")
-
-        
+        if "centre" in request.form:
+            centre = float(request.form["centre"])
+            step = float(request.form["step"])
+            number_of_steps = int(request.form["number_of_steps"]) if "number_of_steps" in request.form else 2
+            generated_range = generate_range(centre, step, number_of_steps)
+            return render_template("home.html", generated_range=generated_range)
+        else:
+            try:    
+                tax_rate = float(request.form["tax_rate"])
+                wacc_value = float(request.form["wacc"])
+                base_revenue = float(request.form["base_revenue"])
+                growth_rate = [float (x) for x in request.form["growth_rate"].split(",")]
+                ebit_margin = [float (x) for x in request.form["ebit_margin"].split(",")]
+                da_pct_revenue = [float (x) for x in request.form["da_pct_revenue"].split(",")]
+                capex_pct_revenue = [float (x) for x in request.form["capex_pct_revenue"].split(",")]
+                nwc_change_pct_revenue = [float (x) for x in request.form["nwc_change_pct_revenue"].split(",")]
+                terminal_growth_rate = float(request.form["terminal_growth_rate"])
+                net_debt = float(request.form["net_debt"])
+                shares_outstanding = float(request.form["shares_outstanding"])
+                wacc_values = [float (x) for x in request.form["wacc_values"].split(",")]
+                terminal_growth_rate_values = [float (x) for x in request.form["terminal_growth_rate_values"].split(",")]
+                if not (len(growth_rate) == len(ebit_margin) == len(da_pct_revenue) == len(capex_pct_revenue) == len(nwc_change_pct_revenue)):
+                    raise ValueError("All input lists must have the same length.")
+                sensitivity_table_result = sensitivity_analysis(wacc_values, terminal_growth_rate_values, tax_rate, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, net_debt, shares_outstanding)
+                dcf_result = run_dcf_analysis(tax_rate, wacc_value, base_revenue, growth_rate, ebit_margin, da_pct_revenue, capex_pct_revenue, nwc_change_pct_revenue, terminal_growth_rate, net_debt, shares_outstanding)
+                return render_template("dcf_result.html", dcf_result=dcf_result, sensitivity_table_result=sensitivity_table_result)
+            except (ValueError, KeyError) as e:
+                return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers and lists are comma-separated.")    
     return render_template('home.html')
 
 

@@ -54,6 +54,7 @@ def test_sensitivity_analysis():
 
 # generate_range test
 def test_generate_range():
-    assert generate_range(0.09, 0.01, 2) == pytest.approx([0.07, 0.08, 0.09, 0.1, 0.11])
-
+    result = generate_range(0.09, 0.01, 2)
+    assert result["values"] == pytest.approx([0.07, 0.08, 0.09, 0.1, 0.11])
+    assert result["range_string"] == ("0.07, 0.08, 0.09, 0.1, 0.11")
 

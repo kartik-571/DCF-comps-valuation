@@ -3,6 +3,9 @@
 # All the code and script was written, and tested by me.
 
 # Building the cost of equity code lines
+from ntpath import join
+
+
 def cost_of_equity(risk_free_rate:float, beta:float, equity_risk_premium:float):
     cost_of_equity = risk_free_rate + beta * equity_risk_premium
     return cost_of_equity
@@ -116,6 +119,16 @@ def generate_range(centre, step, number_of_steps=2):
         values=[]
         for i in range(-number_of_steps, number_of_steps +1):
             values.append(centre + (i * step))
-        return values
+        string_values = []
+        for v in values:
+            string_values.append(str(round(v, 4)))
+        range_string = ", ".join(string_values)
+        return{
+            "values": values,
+            "range_string": range_string,
+        }
+        
+         
+
 
 

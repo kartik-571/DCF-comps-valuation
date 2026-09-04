@@ -4,7 +4,7 @@
 
 #Tests for all code functions 
 import pytest
-from finance.dcf import calculate_dcf, cost_of_equity, after_tax_cost_of_debt, run_dcf_analysis, terminal_value, wacc, project_revenue, calculate_fcf_single_year, project_fcf, sensitivity_analysis
+from finance.dcf import calculate_dcf, cost_of_equity, after_tax_cost_of_debt, generate_range, run_dcf_analysis, terminal_value, wacc, project_revenue, calculate_fcf_single_year, project_fcf, sensitivity_analysis
 
 #cost_of_equity test
 def test_cost_of_equity():
@@ -51,5 +51,9 @@ def test_sensitivity_analysis():
     table = sensitivity_analysis([0.08, 0.02], [0.02, 0.03], 0.25, 1000, [0.10, 0.08], [0.2, 0.25], [0.03, 0.04], [0.04, 0.05], [0.01, 0.02], 200, 100)
     assert table[0.08][0.02]['intrinsic_value_per_share'] == pytest.approx(30.380740740740734)
     assert table[0.02][0.02] == "Invalid"
+
+# generate_range test
+def test_generate_range():
+    assert generate_range(0.09, 0.01, 2) == pytest.approx([0.07, 0.08, 0.09, 0.1, 0.11])
 
 

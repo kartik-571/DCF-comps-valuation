@@ -69,7 +69,7 @@ def comps():
                 sorted_comp_result = rank_comps(comp_result, sort_by)
                 filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
                 return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)
-            except ValueError as e:
+            except (ValueError, KeyError) as e:
                 return render_template("error.html", error_message=str(e) + " Please ensure all inputs are valid numbers.")
     return render_template('comps.html')
 

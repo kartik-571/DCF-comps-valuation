@@ -110,3 +110,12 @@ def sensitivity_analysis(wacc_values: list, terminal_growth_rate_values: list, t
             
             results[wacc_val][terminal_growth_rate_val] = dcf_result
     return results
+
+# Creating function to automatically produce range for different wacc and terminal growth rate values for sensitivity table
+def generate_range(centre, step, number_of_steps=2):
+        values=[]
+        for i in range(-number_of_steps, number_of_steps +1):
+            values.append(centre + (i * step))
+        return values
+
+

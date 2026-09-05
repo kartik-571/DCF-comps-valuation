@@ -6,31 +6,44 @@
 {% block title %}Comps calculator{% endblock %}
 {% block content %}
 <form method="POST">
-    <input type="text" name="ticker" placeholder="e.g AAPL">
+    <label for="ticker">Ticker: </label>
+    <input type="text" name="ticker" id="ticker" placeholder="e.g AAPL">
     <input type="submit" value="Fetch Data">
 </form>
     <form method="POST">
         <div id="companies-container">
             <div class="company-row">
-            Share Price: <input type="text" name="share_price_1" value="{{ fetched_data.share_price if fetched_data else '' }}">
-            EPS: <input type="text" name="eps_1" value="{{ fetched_data.eps if fetched_data else '' }}">
-            Shares: <input type="text" name="shares_outstanding_1" value="{{ fetched_data.shares_outstanding if fetched_data else '' }}">
-            Total Debt: <input type="text" name="total_debt_1" value="{{ fetched_data.total_debt if fetched_data else '' }}">
-            Cash and Cash Equivalents: <input type="text" name="cash_and_cash_equivalents_1" value="{{ fetched_data.cash_and_cash_equivalents if fetched_data else '' }}">
-            EBIT: <input type="text" name="ebit_1" value="{{ fetched_data.ebit if fetched_data else '' }}">
-            D and A: <input type="text" name="d_and_a_1" value="{{ fetched_data.d_and_a if fetched_data else '' }}">
+            <label for="company_name_1"> Company Name:</label>
+            <input type="text" name="company_name_1" id="company_name_1" value="{{fetched_data.company_name if fetched_data else ''}}">
+            <label for ="share_price_1"> Share Price:</label>
+            <input type="text" id="share_price_1" name="share_price_1" value="{{ fetched_data.share_price if fetched_data else '' }}">
+            <label for="eps_1"> EPS: </label>
+            <input type="text" name="eps_1" id="eps_1" value="{{ fetched_data.eps if fetched_data else '' }}">
+            <label for="shares_outstanding_1"> Shares: </label>
+            <input type="text" name="shares_outstanding_1" id="shares_outstanding_1" value="{{ fetched_data.shares_outstanding if fetched_data else '' }}">
+            <label for="total_debt_1"> Total debt: </label>
+            <input type="text" name="total_debt_1" id="total_debt_1" value="{{ fetched_data.total_debt if fetched_data else '' }}">
+            <label for="cash_and_cash_equivalents_1"> Cash and Cash Equivalents: </label>
+            <input type="text" name="cash_and_cash_equivalents_1" id="cash_and_cash_equivalents_1" value="{{ fetched_data.cash_and_cash_equivalents if fetched_data else '' }}">
+            <label for="ebit_1"> EBIT: </label>
+            <input type="text" name="ebit_1" id="ebit_1" value="{{ fetched_data.ebit if fetched_data else '' }}">
+            <label for="d_and_a_1"> D and A: </label>
+            <input type="text" name="d_and_a_1" id="d_and_a_1" value="{{ fetched_data.d_and_a if fetched_data else '' }}">
             </div>
             </div>
             <button type="button" id="add-company">+ Add Company</button>
-            Sort By<select name="sort_by">
-                <option value="pe_ratio">P/E Ratio </option>
-                <option value="ev_ebitda_ratio">EV/EBITDA Ratio</option>
+            <label for="sort_by">Sort By </label>
+            <select name="sort_by" id="sort_by">
+            <option value="pe_ratio">P/E Ratio </option>
+            <option value="ev_ebitda_ratio">EV/EBITDA Ratio</option>
             </select>
-            Filter By<select name="filter_by">
-                <option value="pe_ratio">P/E Ratio </option>
-                <option value="ev_ebitda_ratio">EV/EBITDA Ratio</option>
+            <label for="filter_by">Filter By </label>
+            <select name="filter_by" id="filter_by">
+            <option value="pe_ratio">P/E Ratio</option> 
+            <option value="ev_ebitda_ratio">EV/EBITDA Ratio</option>
             </select>
-            Cut Off <input type ="text" name="cut_off">
+            <label for="cut_off">Cut Off</label>
+            <input type ="text" name="cut_off" id="cut_off">
             <input type="submit" value="Submit">
             <input type="hidden" id="company-count-input" name="company_count" value="1">
             </form>
@@ -43,13 +56,22 @@
                     const NewRow = document.createElement('div');
                     NewRow.className = "company-row";
                     NewRow.innerHTML = `
-                    Share Price: <input type="text" name="share_price_${companyCount}">
-                    EPS: <input type="text" name="eps_${companyCount}">
-                    Shares: <input type="text" name="shares_outstanding_${companyCount}">
-                    Total Debt: <input type="text" name="total_debt_${companyCount}">
-                    Cash and Cash Equivalents: <input type="text" name="cash_and_cash_equivalents_${companyCount}">
-                    EBIT: <input type="text" name="ebit_${companyCount}">
-                    D and A: <input type="text" name="d_and_a_${companyCount}">
+                    <label for="company_name_${companyCount}"> Company Name:</label>
+                    <input type="text" name="company_name_${companyCount}" id="company_name_${companyCount}">
+                    <label for="share_price_${companyCount}"> Share Price:</label>
+                    <input type="text" name="share_price_${companyCount}" id="share_price_${companyCount}">
+                    <label for="eps_${companyCount}"> EPS:</label>
+                    <input type="text" name="eps_${companyCount}" id="eps_${companyCount}">
+                    <label for="shares_outstanding_${companyCount}"> Shares:</label>
+                    <input type="text" name="shares_outstanding_${companyCount}" id="shares_outstanding_${companyCount}">
+                    <label for="total_debt_${companyCount}"> Total Debt:</label>
+                    <input type="text" name="total_debt_${companyCount}" id="total_debt_${companyCount}">
+                    <label for="cash_and_cash_equivalents_${companyCount}"> Cash and Cash Equivalents:</label>
+                    <input type="text" name="cash_and_cash_equivalents_${companyCount}" id="cash_and_cash_equivalents_${companyCount}">
+                    <label for="ebit_${companyCount}"> EBIT:</label>
+                    <input type="text" name="ebit_${companyCount}" id="ebit_${companyCount}">
+                    <label for="d_and_a_${companyCount}"> D and A:</label>
+                    <input type="text" name="d_and_a_${companyCount}" id="d_and_a_${companyCount}">
                     `;
                     container.appendChild(NewRow);
 

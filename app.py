@@ -62,6 +62,7 @@ def comps():
                 company_count = int(request.form["company_count"])
                 for i in range(1, company_count + 1):
                     companies.append({
+                    "company_name": request.form[f"company_name_{i}"],
                     "share_price": float(request.form[f"share_price_{i}"]),
                     "eps": float(request.form[f"eps_{i}"]),
                     "shares_outstanding": float(request.form[f"shares_outstanding_{i}"]),
@@ -69,8 +70,10 @@ def comps():
                     "cash_and_cash_equivalents": float(request.form[f"cash_and_cash_equivalents_{i}"]),
                     "ebit": float(request.form[f"ebit_{i}"]),
                     "d_and_a": float(request.form[f"d_and_a_{i}"])
-                       })
+                    })
                 comp_result = comp_multiple_calculation(companies)
+                for original, result in zip(companies, comp_result):
+                    result["company_name"] = original["company_name"]
                 sorted_comp_result = rank_comps(comp_result, sort_by)
                 filtered_comp_result = filter_comps(comp_result, filter_by, cut_off)
                 return render_template("comps_result.html", comp_result=comp_result, sorted_comp_result=sorted_comp_result, filtered_comp_result=filtered_comp_result)

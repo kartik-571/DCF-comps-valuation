@@ -9,43 +9,49 @@
     <h2>Raw Results</h2>
     <table>
         <tr>
-            <th>P/E Ratio</th>
-            <th>EV/EBITDA Ratio</th>
+            <th> Company Name </th>
+            <th> P/E Ratio </th>
+            <th> EV/EBITDA Ratio </th>
         </tr>
         {% for comp in comp_result %}
         <tr>
-            <td>{{ comp.pe_ratio }}</td>
-            <td>{{ comp.ev_ebitda_ratio }}</td>
+            <td> {{ comp.company_name }}</td>
+            <td> {{ comp.pe_ratio }} </td>
+            <td> {{ comp.ev_ebitda_ratio }} </td>
         </tr>
         {% endfor %}
     </table>
-    <h3>Sorted Results</h3>
+    <h3> Sorted Results </h3>
     <table>
         <tr>
-            <th>P/E Ratio</th>
-            <th>EV/EBITDA Ratio</th>
-            <th>Rank</th>
+            <th> Company Name </th>
+            <th> P/E Ratio </th>
+            <th> EV/EBITDA Ratio </th>
+            <th> Rank </th>
         </tr>
         {% for comp in sorted_comp_result %}
         <tr>
-            <td>{{ comp.pe_ratio }}</td>
-            <td>{{ comp.ev_ebitda_ratio }}</td>
-            <td>{{ comp.rank }}</td>
+            <td> {{ comp.company_name }} </td>
+            <td> {{ comp.pe_ratio }} </td>
+            <td> {{ comp.ev_ebitda_ratio }} </td>
+            <td> {{ comp.rank }} </td>
         </tr>
         {% endfor %}
     </table>
     <h4>Filtered Results</h4>
     <table>
         <tr>
-            <th>P/E Ratio</th>
-            <th>EV/EBITDA Ratio</th>
-            <th>Rank</th>
+            <th> Company Name </th>
+            <th> P/E Ratio </th>
+            <th> EV/EBITDA Ratio </th>
+            <th> Rank </th>
         </tr>
         {% for comp in filtered_comp_result %}
         <tr>
-            <td>{{ comp.pe_ratio }}</td>
-            <td>{{ comp.ev_ebitda_ratio }}</td>
-            <td>{{ comp.rank }}</td>
+            <td> {{ comp.company_name }} </td>
+            <td> {{ comp.pe_ratio }} </td>
+            <td> {{ comp.ev_ebitda_ratio }} </td>
+            <td> {{ comp.rank }} </td>
         </tr>
         {% endfor %}
     </table>

@@ -6,26 +6,42 @@
 {% block title %}DCF calculator{% endblock %}
 {% block content %}
 <form method="POST">
-            Tax Rate: <input type="text" name="tax_rate">
-            WACC: <input type="text" name="wacc">
-            Base Revenue: <input type="text" name="base_revenue">
-            Growth Rate (comma-separated): <input type="text" name="growth_rate">
-            EBIT Margin (comma-separated): <input type="text" name="ebit_margin">
-            DA % Revenue (comma-separated): <input type="text" name="da_pct_revenue">
-            Capex % Revenue (comma-separated): <input type="text" name="capex_pct_revenue">
-            NWC Change % Revenue (comma-separated): <input type="text" name="nwc_change_pct_revenue">
-            Terminal Growth Rate: <input type="text" name="terminal_growth_rate">
-            Net Debt: <input type="text" name="net_debt">
-            Shares Outstanding: <input type="text" name="shares_outstanding">
-            WACC Values (comma-separated): <input type="text" name="wacc_values" value="{{ generated_range.range_string if generated_range else '' }}">
-            Terminal Growth Rate Values (comma-separated): <input type="text" name="terminal_growth_rate_values">
+    <label for ="tax_rate"> Tax Rate:</label>
+            <input type="text" name="tax_rate" id="tax_rate">
+            <label for ="wacc"> WACC:</label>
+            <input type="text" name="wacc" id="wacc">
+            <label for ="base_revenue"> Base Revenue:</label>
+            <input type="text" name="base_revenue" id="base_revenue">
+            <label for ="growth_rate"> Growth Rate (comma-separated):</label>
+            <input type="text" name="growth_rate" id="growth_rate">
+            <label for ="ebit_margin"> EBIT Margin (comma-separated):</label>
+            <input type="text" name="ebit_margin" id="ebit_margin">
+            <label for ="da_pct_revenue"> DA % Revenue (comma-separated):</label>
+            <input type="text" name="da_pct_revenue" id="da_pct_revenue">
+            <label for ="capex_pct_revenue"> Capex % Revenue (comma-separated): </label>
+            <input type="text" name="capex_pct_revenue" id="capex_pct_revenue">
+            <label for ="nwc_change_pct_revenue"> NWC Change % Revenue (comma-separated):</label>
+            <input type="text" name="nwc_change_pct_revenue" id="nwc_change_pct_revenue">
+            <label for ="terminal_growth_rate"> Terminal Growth Rate:</label>
+            <input type="text" name="terminal_growth_rate" id="terminal_growth_rate">
+            <label for ="net_debt"> Net Debt:</label>
+            <input type="text" name="net_debt" id="net_debt"> 
+            <label for ="shares_outstanding"> Shares Outstanding:</label>
+            <input type="text" name="shares_outstanding" id="shares_outstanding">
+            <label for ="wacc_values"> WACC Values (comma-separated):</label>
+            <input type="text" name="wacc_values" id="wacc_values" value="{{ generated_range.range_string if generated_range else '' }}">
+            <label for ="terminal_growth_rate_values"> Terminal Growth Rate Values (comma-separated):</label>
+            <input type="text" name="terminal_growth_rate_values" id="terminal_growth_rate_values">
             <input type="submit" value="Submit">
 </form>
 <form method="POST">
              Auto-generate WACC ranges:
-            <input type="text" name="centre" placeholder="Centre Value">
-            <input type="text" name="step" placeholder="Step Value">
-            <input type="text" name="number_of_steps" placeholder="Number of Steps">
+            <label for="centre"> Centre: </label>
+            <input type="text" name="centre" id="centre" placeholder="Centre Value">
+            <label for="step"> Step: </label>
+            <input type="text" name="step" id="step" placeholder="Step Value">
+            <label for="number_of_steps">Number of Steps: </label>
+            <input type="text" name="number_of_steps" id="number_of_steps" placeholder="Number of Steps">
             <input type="submit" value="Generate Range">
             </form>
 {% endblock content %}

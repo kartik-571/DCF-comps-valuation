@@ -15,6 +15,7 @@ def fetch_company_data(ticker, api_key):
     balance = balance_response[0]
 
     return {
+        "company_name": quote["name"],
         "share_price": quote["price"],
         "eps": income["eps"],
         "shares_outstanding": income["weightedAverageShsOut"],
